@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 const adminLogin = async (req, res) => {
   try {
     let { userName, password } = req.body;
-    console.log(userName);
     let reduction = false;
     const reductionStatus = userName.endsWith("alvas");
     if (reductionStatus) {
@@ -33,14 +32,14 @@ const adminLogin = async (req, res) => {
         res
           .status(200)
           .cookie("token", token, { expires: expireDate, httpOnly: true })
-          .json({ reduction });
+          .json({ reduction, userName: isAdminExists.userName });
       } else {
         res.status(401).json({ error: "Incorrect Password" });
       }
     });
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({ error: "Failed To Login" });
+    res.status(500).json({ error: "Failed To Login Due To Server Error" });
   }
 };
 
