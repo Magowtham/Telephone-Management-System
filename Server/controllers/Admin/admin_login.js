@@ -15,7 +15,7 @@ const adminLogin = async (req, res) => {
       { _id: 0, password: 1, userName: 1, email: 1 }
     );
     if (!isAdminExists) {
-      return res.status(404).json({ error: "Admin Not Found" });
+      return res.status(404).json({ error: "admin not found" });
     }
     bcrypt.compare(password, isAdminExists.password, (error, result) => {
       if (error) {
@@ -26,20 +26,20 @@ const adminLogin = async (req, res) => {
           userName: isAdminExists.userName,
           email: isAdminExists.email,
         };
-        const token = jwt.sign(payload, "alvas", { expiresIn: "24h" });
-        const expireDate = new Date(Date.now() + 1 * 24 * 60 * 60);
-
+        const token = jwt.sign(payload, "alvas", {
+          expiresIn: "24h",
+        });
+        const expireDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
         res
           .status(200)
-          .cookie("token", token, { expires: expireDate, httpOnly: true })
-          .json({ reduction, userName: isAdminExists.userName });
+          .cookie("token", token, { expiresIn: expireDate, httpOnly: true })
+          .json({ reduction, adminUsername: isAdminExists.userName });
       } else {
-        res.status(401).json({ error: "Incorrect Password" });
+        res.status(401).json({ error: "incorrect password" });
       }
     });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ error: "Failed To Login Due To Server Error" });
+    res.status(500).json({ error: "failed to login" });
   }
 };
 

@@ -12,8 +12,7 @@ const getUsers = async (req, res) => {
     const totalUsers = await UserModel.countDocuments();
     return res.status(200).json({ users, totalUsers });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ error: "Failed To Fetch Users" });
+    res.status(500).json({ error: "unable to fetch users" });
   }
 };
 

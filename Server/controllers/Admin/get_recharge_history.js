@@ -26,7 +26,7 @@ const getRechargeHistory = async (req, res) => {
     ];
     const [rechargeHistory] = await UserModel.aggregate(pipeLine);
     if (!rechargeHistory) {
-      return res.status(404).json({ error: "User Not Found" });
+      return res.status(404).json({ error: "user not found" });
     }
     if (Number(reductionStatus)) {
       rechargeHistory.historySlice.forEach((value) => {
@@ -38,8 +38,7 @@ const getRechargeHistory = async (req, res) => {
       historyLength: rechargeHistory.rechargeHistoryLength,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Unable To Fetch User Recharge History" });
+    res.status(500).json({ error: "unable to fetch user recharge history" });
   }
 };
 

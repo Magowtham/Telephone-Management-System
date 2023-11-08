@@ -7,7 +7,7 @@ const adminRegister = async (req, res) => {
       $or: [{ userName }, { email }],
     });
     if (isAdminExists.length !== 0) {
-      return res.status(422).json({ error: "Admin  Already Exists" });
+      return res.status(422).json({ error: "admin already exists" });
     }
     await bcrypt.genSalt(10, (error, salt) => {
       if (error) {
@@ -25,10 +25,9 @@ const adminRegister = async (req, res) => {
         await newAdmin.save();
       });
     });
-    return res.status(201).json({ message: "Admin Registration Sucsessfull" });
+    return res.status(201).json({ message: "admin registration succcessfull" });
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ error: "Admin Registration Process Failed" });
+    res.status(500).json({ error: "admin registration failed" });
   }
 };
 

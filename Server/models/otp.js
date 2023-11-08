@@ -10,10 +10,6 @@ const otpSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    expirationTime: {
-      type: Date,
-      required: true,
-    },
   },
   {
     timestamps: true,

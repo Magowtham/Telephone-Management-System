@@ -6,14 +6,14 @@ const deleteUser = async (req, res) => {
     const { userName, rfid, password } = req.body;
     const [isUserExsists] = await UserModel.find({ rfid });
     if (!isUserExsists) {
-      return res.status(404).json({ error: "User Not Found" });
+      return res.status(404).json({ error: "user not found" });
     }
     const [isAdminExists] = await AdminModel.find(
       { userName },
       { password: 1 }
     );
     if (!isAdminExists) {
-      return res.status(404).json({ error: "Admin Not Found" });
+      return res.status(404).json({ error: "admin not found" });
     }
     await bcrypt.compare(
       password,
@@ -25,18 +25,17 @@ const deleteUser = async (req, res) => {
         if (result) {
           const isUserDeleted = await UserModel.deleteOne({ rfid });
           if (isUserDeleted.acknowledged) {
-            res.status(200).json({ message: "User Successfully Deleted" });
+            res.status(200).json({ message: "user deleted successfully" });
           } else {
-            res.status(500).json({ error: "Unbale To Delete User" });
+            res.status(500).json({ error: "unable to delete user" });
           }
         } else {
-          res.status(401).json({ error: "Incorrect Password" });
+          res.status(401).json({ error: "incorrect password" });
         }
       }
     );
   } catch (error) {
-    console.log(error.message);
-    res.status(500).json({ error: "Unbale To Delete User" });
+    res.status(500).json({ error: "unable to delete user" });
   }
 };
 module.exports = deleteUser;

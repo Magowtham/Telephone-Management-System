@@ -19,7 +19,7 @@ async function generatePDF(res, rechargeHistory, totalAmount) {
     return (cellHeight - fontSize) / 2;
   }
   const pdfFilePath = path.join(__dirname, "PDF", "invoice.pdf");
-  const logoPath = path.join(__dirname, "PDF", "alvas.png");
+  const logoPath = path.join(__dirname, "PDF", "vsense.png");
   const stream = fs.createWriteStream(pdfFilePath);
   doc.pipe(stream);
   //header section
@@ -43,8 +43,8 @@ async function generatePDF(res, rechargeHistory, totalAmount) {
     )
     .moveDown(0.1)
     .fontSize(15)
-    .text("www.vsense-technologies.com,", {
-      link: "www.google.com",
+    .text("www.vsensetechnologies.com,", {
+      link: "www.vsensetechnologies.com",
       continued: true,
     })
     .text("vsence@gmail.com\n")
@@ -235,17 +235,18 @@ async function generatePDF(res, rechargeHistory, totalAmount) {
   }
   doc.end();
   stream.on("finish", () => {
-    // res.download(pdfFilePath, "invoice.pdf", (error) => {
-    //   if (error) {
-    //     res.status(500).json({ error: "Server Error" });
-    //   } else {
-    //     fs.unlink(pdfFilePath, (error) => {
-    //       if (error) {
-    //         console.log(error);
-    //       }
-    //     });
-    //   }
-    // });
+    res.header({ "Content-Type": "application/pdf" });
+    res.download(pdfFilePath, "recharge.pdf", (error) => {
+      if (error) {
+        res.status(500).json({ error: "Server Error" });
+      } else {
+        fs.unlink(pdfFilePath, (error) => {
+          if (error) {
+            res.status(500).json({ error: "Server Error" });
+          }
+        });
+      }
+    });
   });
 }
 

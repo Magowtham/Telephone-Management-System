@@ -4,27 +4,39 @@ const generatePDF = require("../Others/generate_pdf");
 const downloadRechargeHistory = async (req, res) => {
   try {
     let { reductionStatus, startDate, endDate } = req.query;
-    console.log(req.query);
     const usersRechargeHistory = [];
     let totalAmount = 0;
     startDate = moment(startDate, "DD/MM/YYYY").toDate();
     endDate = moment(endDate, "DD/MM/YYYY").toDate();
-    const query = {
-      rechargeHistory: {
-        $elemMatch: {
-          date: {
+    const pipeline = [
+      {
+        $match: {
+          "rechargeHistory.date": {
             $gte: startDate,
-            $lte: endDate,
+            $lt: endDate,
           },
         },
       },
-    };
-    const rechargeHistoryResult = await UserModel.find(query, {
-      rfid: 1,
-      rollNumber: 1,
-      rechargeHistory: 1,
-      _id: 0,
-    });
+      {
+        $project: {
+          rfid: 1,
+          rollNumber: 1,
+          rechargeHistory: {
+            $filter: {
+              input: "$rechargeHistory",
+              as: "rh",
+              cond: {
+                $and: [
+                  { $gte: ["$$rh.date", startDate] },
+                  { $lte: ["$$rh.date", endDate] },
+                ],
+              },
+            },
+          },
+        },
+      },
+    ];
+    const rechargeHistoryResult = await UserModel.aggregate(pipeline);
     rechargeHistoryResult.forEach((user) => {
       const amount = user.rechargeHistory.reduce((sum, historyElement) => {
         return (
@@ -43,8 +55,7 @@ const downloadRechargeHistory = async (req, res) => {
     });
     generatePDF(res, usersRechargeHistory, totalAmount.toFixed(1));
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Server Error" });
+    res.status(500).json({ error: "unable download recharge history" });
   }
 };
 

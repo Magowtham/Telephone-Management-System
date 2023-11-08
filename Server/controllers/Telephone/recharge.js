@@ -5,14 +5,14 @@ const recharge = async (req, res) => {
   try {
     const { rfid, amount, key } = req.body;
     if (process.env.POS_Key !== key) {
-      return res.status(401).json({ error: "Invalid Key" });
+      return res.status(401).json({ error: "invalid key" });
     }
     const [isUserExists] = await UserModel.find(
       { rfid },
       { _id: 0, balance: 1 }
     );
     if (!isUserExists) {
-      return res.status(404).json({ error: "User Not Found" });
+      return res.status(404).json({ error: "user not found" });
     }
 
     const { date, time } = currentDate();
@@ -30,14 +30,14 @@ const recharge = async (req, res) => {
         },
       }
     );
-    res.status(200).json({ message: "Recharge Successfull" });
+    res.status(200).json({ message: "recharge successfull" });
   } catch (error) {
     await sendGmail(
       "magowtham7@gmail.com",
       null,
       `In recharge.js file ${error.name} was occurred due to ${error.message}`
     );
-    return res.status(500).json({ error: "Server Error" });
+    return res.status(500).json({ error: "server error" });
   }
 };
 

@@ -8,6 +8,11 @@ routes.post(
   "/forgot_password",
   require("../controllers/Admin/forgot_password")
 );
+routes.post("/validate_otp", require("../controllers/Admin/otp_validater"));
+routes.post(
+  "/set_password",
+  require("../controllers/Admin/admin_password_reset")
+);
 routes.post("/delete_user", require("../controllers/Admin/delete_user"));
 routes.put("/edit_user/:id", require("../controllers/Admin/edit_user"));
 routes.get(

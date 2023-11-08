@@ -5,18 +5,18 @@ const endCall = async (req, res) => {
   try {
     const { rfid, balance, key } = req.body;
     if (process.env.Telephone_Key !== key) {
-      return res.status(401).json({ error: "Invalid Key" });
+      return res.status(401).json({ error: "ivalid key" });
     }
     const [isUserExists] = await UserModel.find(
       { rfid },
       { _id: 0, balance: 1, expenseHistory: { $slice: 1 } }
     );
     if (!isUserExists) {
-      return res.status(404).json({ error: "User Not Found" });
+      return res.status(404).json({ error: "user not found" });
     }
     const reductedAmount = isUserExists.expenseHistory[0]?.reductedAmount;
     if (reductedAmount !== "pending") {
-      return res.status(400).json({ error: "Call Not Started Yet" });
+      return res.status(400).json({ error: "call not started yet" });
     }
     const { time } = currentDate();
     await UserModel.updateOne(
@@ -32,14 +32,14 @@ const endCall = async (req, res) => {
     );
     return res
       .status(200)
-      .json({ message: "User Balance Updated Sucessfully" });
+      .json({ message: "user balance updated successfully" });
   } catch (error) {
     await sendGmail(
       "magowtham7@gmail.com",
       null,
       `In end_call.js file ${error.name} was occurred due to ${error.message}`
     );
-    res.status(500).json({ error: "Server Error" });
+    res.status(500).json({ error: "server error" });
   }
 };
 

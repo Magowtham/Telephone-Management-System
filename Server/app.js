@@ -9,16 +9,18 @@ const PORT = process.env.PORT || 5000;
 //mongodb connection
 connectDB();
 //middlewares
+app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
+    credentials: true,
     origin: "http://localhost:3000",
   })
 );
-app.use(cookieParser());
+
 //main routes
 app.use("/telephone", require("./Routes/telephone"));
-app.use("/admin", require("./Routes/admin"));
+app.use("/admin", require("./cookie_authoriser"), require("./Routes/admin"));
 
 //starting server
 app.listen(PORT, () => {
