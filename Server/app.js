@@ -19,6 +19,7 @@ app.use(
 );
 
 //main routes
+app.use("/root", require("./controllers/Admin/admin_register"));
 app.use("/telephone", require("./Routes/telephone"));
 app.use("/admin", require("./cookie_authoriser"), require("./Routes/admin"));
 

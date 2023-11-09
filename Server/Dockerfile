@@ -1,22 +1,14 @@
-FROM mhart/alpine-node
+FROM node:20.6.0-alpine
 
-RUN mkdir app
+WORKDIR /usr/app
 
-COPY package.json /app/
-
-RUN npm cache clean --force
-
-RUN cd app
+COPY package* .
 
 RUN npm install
 
-RUN cd ..
-
-COPY . /app/
-
-RUN cd app
+COPY . .
 
 EXPOSE 9000
 
-CMD ["node", "app.js"]
+CMD ["node","app.js"]
 
