@@ -3,7 +3,7 @@ const currentDate = require("../Others/current_date");
 const sendGmail = require("../Others/send_gmail");
 const endCall = async (req, res) => {
   try {
-    const { rfid, balance, key } = req.body;
+    const { rfid, balance, key } = req.query;
     if ("alvas123" !== key) {
       return res.status(401).json({ error: "ivalid key" });
     }
