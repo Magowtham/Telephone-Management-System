@@ -4,7 +4,7 @@ const sendGmail = require("../Others/send_gmail");
 const recharge = async (req, res) => {
   try {
     const { rfid, amount, key } = req.body;
-    if ("alvas123" !== key) {
+    if (process.env.hardwareKey !== key) {
       return res.status(401).json({ error: "invalid key" });
     }
     const [isUserExists] = await UserModel.find(

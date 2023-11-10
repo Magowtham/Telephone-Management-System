@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const editUser = async (req, res) => {
   try {
     const _id = new mongoose.Types.ObjectId(req.params.id);
-    const { name, rfid, rollNumber, userName, password } = req.body;
+    const { name, rfid, rollNumber, admin, password } = req.body;
     const [isUserExsists] = await UserModel.find({ _id });
     if (!isUserExsists) {
       return res.status(404).json({ error: "user not found" });
@@ -17,7 +17,7 @@ const editUser = async (req, res) => {
       return res.status(409).json({ error: "RFID already exists" });
     }
     const [isAdminExists] = await AdminModel.find(
-      { userName },
+      { userName: admin },
       { password: 1 }
     );
     if (!isAdminExists) {

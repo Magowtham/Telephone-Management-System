@@ -3,13 +3,13 @@ const AdminModel = require("../../models/admin_model");
 const bcrypt = require("bcrypt");
 const deleteUser = async (req, res) => {
   try {
-    const { userName, rfid, password } = req.body;
+    const { admin, rfid, password } = req.body;
     const [isUserExsists] = await UserModel.find({ rfid });
     if (!isUserExsists) {
       return res.status(404).json({ error: "user not found" });
     }
     const [isAdminExists] = await AdminModel.find(
-      { userName },
+      { userName: admin },
       { password: 1 }
     );
     if (!isAdminExists) {
