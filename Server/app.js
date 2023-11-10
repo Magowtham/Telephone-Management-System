@@ -14,7 +14,6 @@ app.use(express.json());
 app.use(
   cors({
     origin: "https://vsense-tech.onrender.com",
-    credentials: true,
   })
 );
 //main routes
