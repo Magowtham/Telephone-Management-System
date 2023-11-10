@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./config/db");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 const app = express();
@@ -10,19 +11,12 @@ connectDB();
 //middlewares
 app.use(cookieParser());
 app.use(express.json());
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://vsense-tech.onrender.com"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-});
-
+app.use(
+  cors({
+    origin: "https://vsense-tech.onrender.com/",
+    credentials: true,
+  })
+);
 //main routes
 app.post("/root", require("./controllers/Admin/admin_register"));
 app.post("/login", require("./controllers/Admin/admin_login"));
