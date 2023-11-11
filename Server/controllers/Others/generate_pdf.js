@@ -47,9 +47,9 @@ async function generatePDF(res, rechargeHistory, totalAmount) {
       link: "www.vsensetechnologies.com",
       continued: true,
     })
-    .text("vsence@gmail.com\n")
+    .text("info.vsensetech@gmail.com\n")
     .moveDown(0.1)
-    .text("+918088281469");
+    .text("+918147212905");
   doc.image(logoPath, 470, 70, { width: 80 });
   doc.lineWidth(3);
   //date and sub heading
