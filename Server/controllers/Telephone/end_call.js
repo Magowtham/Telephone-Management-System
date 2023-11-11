@@ -15,9 +15,9 @@ const endCall = async (req, res) => {
       return res.status(404).json({ error: "user not found" });
     }
     const reductedAmount = isUserExists.expenseHistory[0]?.reductedAmount;
-    if (reductedAmount !== "pending") {
-      return res.status(400).json({ error: "call not started yet" });
-    }
+    // if (reductedAmount !== "pending") {
+    //   return res.status(400).json({ error: "call not started yet" });
+    // }
     const { time } = currentDate();
     await UserModel.updateOne(
       { rfid },
