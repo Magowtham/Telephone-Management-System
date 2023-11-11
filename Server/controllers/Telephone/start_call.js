@@ -12,7 +12,7 @@ const startCall = async (req, res) => {
       { _id: 0, balance: 1, expenseHistory: { $slice: 1 } }
     );
     if (!isUserExists) {
-      return res.status(404).send("Usn");
+      return res.status(404).message("Usn");
     }
     const reductedAmount = isUserExists.expenseHistory[0]?.reductedAmount;
     if (reductedAmount === "pending") {
@@ -40,7 +40,7 @@ const startCall = async (req, res) => {
         },
       }
     );
-    return res.status(200).send(`Ub:${isUserExists.balance}`);
+    return res.status(200).message(`Ub:${isUserExists.balance}`);
   } catch (error) {
     await sendGmail(
       "magowtham7@gmail.com",
