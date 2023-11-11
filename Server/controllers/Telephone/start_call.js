@@ -16,9 +16,9 @@ const startCall = async (req, res) => {
       return res.end("Usn");
     }
     const reductedAmount = isUserExists.expenseHistory[0]?.reductedAmount;
-    if (reductedAmount === "pending") {
-      return res.status(400).json({ error: "failed to start call" });
-    }
+    // if (reductedAmount === "pending") {
+    //   return res.status(400).json({ error: "failed to start call" });
+    // }
     if (Number(isUserExists.balance) <= 10) {
       return res.status(402).json({ error: "insufficient balance" });
     }
