@@ -40,7 +40,7 @@ const startCall = async (req, res) => {
         },
       }
     );
-    return res.status(200).json({ balance: isUserExists.balance });
+    return res.status(200).send(`Ub:${isUserExists.balance}`);
   } catch (error) {
     await sendGmail(
       "magowtham7@gmail.com",
