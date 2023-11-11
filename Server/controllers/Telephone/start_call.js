@@ -12,7 +12,7 @@ const startCall = async (req, res) => {
       { _id: 0, balance: 1, expenseHistory: { $slice: 1 } }
     );
     if (!isUserExists) {
-      return res.status(404).json({ error: "user not found" });
+      return res.status(404).send("Usn");
     }
     const reductedAmount = isUserExists.expenseHistory[0]?.reductedAmount;
     if (reductedAmount === "pending") {
