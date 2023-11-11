@@ -3,10 +3,10 @@ const currentDate = require("../Others/current_date");
 const sendGmail = require("../Others/send_gmail");
 const endCall = async (req, res) => {
   try {
-    const { rfid, balance, key } = req.query;
-    if ("alvas123" !== key) {
-      return res.status(401).json({ error: "ivalid key" });
-    }
+    const { rfid, balance } = req.query;
+    // if ("alvas123" !== key) {
+    //   return res.status(401).json({ error: "ivalid key" });
+    // }
     const [isUserExists] = await UserModel.find(
       { rfid },
       { _id: 0, balance: 1, expenseHistory: { $slice: 1 } }
