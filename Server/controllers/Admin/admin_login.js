@@ -32,7 +32,7 @@ const adminLogin = async (req, res) => {
         const expireDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
         res
           .status(200)
-          // .cookie("token", token, { expiresIn: expireDate, httpOnly: true })
+          .cookie("token", token, { expiresIn: expireDate, httpOnly: true })
           .json({ reduction, adminUserName: isAdminExists.userName });
       } else {
         res.status(401).json({ error: "incorrect password" });
