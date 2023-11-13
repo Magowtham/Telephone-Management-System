@@ -11,17 +11,17 @@ connectDB();
 //middlewares
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors(
-  {
-    origin:"*",
-  }
-));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 //main routes
 app.post("/root", require("./controllers/Admin/admin_register"));
 app.post("/login", require("./controllers/Admin/admin_login"));
 app.use("/telephone", require("./Routes/telephone"));
-// require("./cookie_authoriser");
-app.use("/admin", require("./Routes/admin"));
+
+app.use("/admin", require("./cookie_authoriser"), require("./Routes/admin"));
 
 //starting server
 app.listen(PORT, () => {
