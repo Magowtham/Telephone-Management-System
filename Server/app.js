@@ -14,13 +14,13 @@ app.use(express.json());
 app.use(
   cors({
     origin: "*",
+    credentials: true,
   })
 );
 //main routes
 app.post("/root", require("./controllers/Admin/admin_register"));
 app.post("/login", require("./controllers/Admin/admin_login"));
 app.use("/telephone", require("./Routes/telephone"));
-
 app.use("/admin", require("./cookie_authoriser"), require("./Routes/admin"));
 
 //starting server
