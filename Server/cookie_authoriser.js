@@ -4,10 +4,11 @@ const cookieAuthoriser = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ error: "invalid token" });
   }
-  jwt.verify(token, "alvas", (error, user) => {
+  jwt.verify(token, "alvas", (error, admin) => {
     if (error) {
       return res.status(401).json({ error: "invalid token" });
     }
+    req.admin = admin;
     next();
   });
 };

@@ -25,6 +25,7 @@ const adminLogin = async (req, res) => {
         const payload = {
           userName: isAdminExists.userName,
           email: isAdminExists.email,
+          reductionStatus: reduction,
         };
         const token = jwt.sign(payload, "alvas", {
           expiresIn: "24h",
@@ -33,7 +34,7 @@ const adminLogin = async (req, res) => {
         res
           .status(200)
           .cookie("token", token, { expiresIn: expireDate, httpOnly: true })
-          .json({ reduction, adminUserName: isAdminExists.userName });
+          .json({ message: "login successfull" });
       } else {
         res.status(401).json({ error: "incorrect password" });
       }

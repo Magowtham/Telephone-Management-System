@@ -1,5 +1,6 @@
 const routes = require("express").Router();
 
+routes.get("/validate", require("../controllers/Admin/validate"));
 routes.post("/add_user", require("../controllers/Admin/add_user"));
 routes.get("/get_users", require("../controllers/Admin/get_users"));
 routes.post(
