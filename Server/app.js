@@ -13,7 +13,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://test-client-5qkx.onrender.com",
+    origin: "https://test-telephone-client.onrender.com/",
     credentials: true,
   })
 );
