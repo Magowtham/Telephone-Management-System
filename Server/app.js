@@ -3,7 +3,6 @@ const express = require("express");
 const connectDB = require("./config/db");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const cookieSession = require("cookie-session");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,14 +19,6 @@ app.use(express.json());
     })
   );
 
-  app.use(
-    cookieSession({
-      name: "token",
-      keys: ["key1", "key2"],
-      secure: true,
-      sameSite: "None",
-    })
-  );
 //main routes
 app.post("/root", require("./controllers/Admin/admin_register"));
 app.post("/login", require("./controllers/Admin/admin_login"));
