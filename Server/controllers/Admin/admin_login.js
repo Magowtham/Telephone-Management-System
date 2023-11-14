@@ -37,6 +37,7 @@ const adminLogin = async (req, res) => {
             expiresIn: expireDate,
             httpOnly: true,
             secure: true,
+            sameSite: "none",
           })
           .json({ message: "login successfull" });
       } else {
