@@ -21,10 +21,7 @@ app.use(cookieParser());
 app.use(express.json());
   app.use(
     cors({
-      origin: [
-        "https://test-telephone-client.onrender.com",
-        "http://localhost:3000",
-      ],
+      origin: ["https://admin.vsensetechnologies.com", "http://localhost:3000"],
       credentials: true,
     })
   );
