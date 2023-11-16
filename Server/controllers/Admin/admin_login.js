@@ -34,10 +34,11 @@ const adminLogin = async (req, res) => {
         res
           .status(200)
           .cookie("token", token, {
-            expiresIn: expireDate,
+            expires: expireDate,
             httpOnly: true,
             secure: true,
             sameSite: "none",
+            domain: ".vsensetechnologies.com",
           })
           .json({ message: "login successfull" });
       } else {
