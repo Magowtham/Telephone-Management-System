@@ -9,22 +9,25 @@ const PORT = process.env.PORT || 5000;
 //mongodb connection
 connectDB();
 //middlewares
- app.use(function (req, res, next) {
-   res.header("Access-Control-Allow-Origin", req.headers.origin);
-   res.header(
-     "Access-Control-Allow-Headers",
-     "Origin, X-Requested-With, Content-Type, Accept"
-   );
-   next();
- }); 
+const allowedOrgins = ["https://admin.vsensetechnologies.com"];
+const corsOptions = {
+  origin: function (origin, callBack) {
+    console.log(origin);
+    if (allowedOrgins.indexOf(origin) !== -1 || !origin) {
+      callBack(null, true);
+    } else {
+      callBack(new Error("access denied"));
+    }
+  },
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+app.use(cors(corsOptions));
+
 app.use(cookieParser());
 app.use(express.json());
-  app.use(
-    cors({
-      origin: ["https://admin.vsensetechnologies.com", "http://localhost:3000"],
-      credentials: true,
-    })
-  );
+
 
 //main routes
 app.post("/root", require("./controllers/Admin/admin_register"));
