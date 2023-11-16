@@ -38,6 +38,7 @@ const adminLogin = async (req, res) => {
             httpOnly: true,
             secure: true,
             sameSite: "none",
+            domain: ".vsensetechnologies.com",
           })
           .json({ message: "login successfull" });
       } else {
