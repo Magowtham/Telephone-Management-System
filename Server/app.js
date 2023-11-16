@@ -21,7 +21,7 @@ app.use(cookieParser());
 app.use(express.json());
   app.use(
     cors({
-      origin: "https://admin.vsensetechnologies.com",
+      origin: ["https://admin.vsensetechnologies.com", "http://localhost:3000"],
       credentials: true,
     })
   );
