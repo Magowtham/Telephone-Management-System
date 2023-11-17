@@ -1,4 +1,6 @@
+const mongoose = require("mongoose");
 const UserModel = require("../../models/add_user_model");
+const ExpenseModel = require("../../models/expense_model");
 const currentDate = require("../Others/current_date");
 const sendGmail = require("../Others/send_gmail");
 const endCall = async (req, res) => {
@@ -9,23 +11,33 @@ const endCall = async (req, res) => {
     // }
     const [isUserExists] = await UserModel.find(
       { rfid },
-      { _id: 0, balance: 1, expenseHistory: { $slice: 1 } }
+      { _id: 1, balance: 1 }
     );
     if (!isUserExists) {
       return res.status(404).json({ error: "user not found" });
     }
-    const reductedAmount = isUserExists.expenseHistory[0]?.reductedAmount;
     // if (reductedAmount !== "pending") {
     //   return res.status(400).json({ error: "call not started yet" });
     // }
     const { time } = currentDate();
+    await ExpenseModel.updateOne(
+      {
+        $and: [
+          { userId: isUserExists._id.toString() },
+          { reductedAmount: "pending" },
+        ],
+      },
+      {
+        $set: {
+          callEndTime: time,
+          reductedAmount: Number(isUserExists.balance) - Number(balance),
+        },
+      }
+    );
     await UserModel.updateOne(
       { rfid },
       {
         $set: {
-          [`expenseHistory.0.callEndTime`]: time,
-          [`expenseHistory.0.reductedAmount`]:
-            Number(isUserExists.balance) - Number(balance),
           balance: Number(balance),
         },
       }
@@ -34,6 +46,7 @@ const endCall = async (req, res) => {
       .status(200)
       .json({ message: "user balance updated successfully" });
   } catch (error) {
+    console.log(error);
     await sendGmail(
       "magowtham7@gmail.com",
       null,

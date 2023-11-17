@@ -18,14 +18,6 @@ const UserSchema = mongoose.Schema({
     required: true,
     default: 0,
   },
-  rechargeHistory: {
-    type: Array,
-    default: [],
-  },
-  expenseHistory: {
-    type: Array,
-    default: [],
-  },
 });
 
 module.exports = mongoose.model("users", UserSchema);

@@ -26,15 +26,13 @@ const corsOptions = {
 app.use(cookieParser());
 app.use(cors(corsOptions));
 
-
 app.use(express.json());
-
 
 //main routes
 app.post("/root", require("./controllers/Admin/admin_register"));
 app.post("/login", require("./controllers/Admin/admin_login"));
 app.use("/telephone", require("./Routes/telephone"));
-app.use("/admin", require("./cookie_authoriser"), require("./Routes/admin"));
+app.use("/admin", require("./Routes/admin"));
 
 //starting server
 app.listen(PORT, () => {

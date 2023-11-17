@@ -1,4 +1,4 @@
-const UserModel = require("../../models/add_user_model");
+const RechargeModel = require("../../models/recharge_model");
 const moment = require("moment");
 const generatePDF = require("../Others/generate_pdf");
 const downloadRechargeHistory = async (req, res) => {
@@ -11,7 +11,7 @@ const downloadRechargeHistory = async (req, res) => {
     const pipeline = [
       {
         $match: {
-          "rechargeHistory.date": {
+          date: {
             $gte: startDate,
             $lt: endDate,
           },
@@ -19,42 +19,34 @@ const downloadRechargeHistory = async (req, res) => {
       },
       {
         $project: {
-          rfid: 1,
-          rollNumber: 1,
-          rechargeHistory: {
-            $filter: {
-              input: "$rechargeHistory",
-              as: "rh",
-              cond: {
-                $and: [
-                  { $gte: ["$$rh.date", startDate] },
-                  { $lte: ["$$rh.date", endDate] },
-                ],
-              },
-            },
-          },
+          amount: 1,
+          _id: 0,
+          userId: 1,
         },
       },
     ];
-    const rechargeHistoryResult = await UserModel.aggregate(pipeline);
-    rechargeHistoryResult.forEach((user) => {
-      const amount = user.rechargeHistory.reduce((sum, historyElement) => {
-        return (
-          sum +
-          (Number(reductionStatus)
-            ? historyElement.amount - historyElement.amount * 0.6
-            : historyElement.amount)
-        );
-      }, 0);
-      totalAmount += amount;
-      usersRechargeHistory.push({
-        rfid: user.rfid,
-        rollNumber: user.rollNumber,
-        amount: amount.toFixed(1),
+    const usersHistory = [];
+    const rechargeHistoryResult = await RechargeModel.aggregate(pipeline);
+    rechargeHistoryResult.forEach((history) => {
+      console.log(history);
+      usersHistory.forEach((element) => {
+        if (element.userId === history.userId) {
+          element.amount = Number(element.amount) + Number(history.amount);
+        } else {
+          usersHistory.push({
+            userId: history.userId,
+            amount: Number(history.amount),
+          });
+        }
       });
+      if (usersHistory.length === 0) {
+        usersHistory.push(history);
+      }
     });
-    generatePDF(res, usersRechargeHistory, totalAmount.toFixed(1));
+    console.log(usersHistory);
+    // generatePDF(res, usersRechargeHistory, totalAmount.toFixed(1));
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "unable download recharge history" });
   }
 };
