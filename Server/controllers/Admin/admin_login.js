@@ -1,6 +1,5 @@
 const AdminModel = require("../../models/admin_model");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const adminLogin = async (req, res) => {
   try {
     let { userName, password } = req.body;
@@ -22,24 +21,7 @@ const adminLogin = async (req, res) => {
         throw error;
       }
       if (result) {
-        const payload = {
-          userName: isAdminExists.userName,
-          email: isAdminExists.email,
-          reductionStatus: reduction,
-        };
-        const token = jwt.sign(payload, "alvas", {
-          expiresIn: "24h",
-        });
-        const expireDate = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000);
-        res
-          .status(200)
-          .cookie("token", token, {
-            expires: expireDate,
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-          })
-          .json({ message: "login successfull" });
+        res.status(200).json({ reductionStatus: reduction });
       } else {
         res.status(401).json({ error: "incorrect password" });
       }

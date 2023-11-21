@@ -9,10 +9,9 @@ const PORT = process.env.PORT || 5000;
 //mongodb connection
 connectDB();
 //middlewares
-const allowedOrgins = ["https://admin.vsensetechnologies.com"];
+const allowedOrgins = ["http://localhost:3000"];
 const corsOptions = {
   origin: function (origin, callBack) {
-    console.log(origin);
     if (allowedOrgins.indexOf(origin) !== -1 || !origin) {
       callBack(null, true);
     } else {

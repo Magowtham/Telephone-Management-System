@@ -3,7 +3,7 @@ const path = require("path");
 const PDFkit = require("pdfkit");
 const currentDate = require("./current_date");
 
-async function generatePDF(res, rechargeHistory, totalAmount) {
+function generatePDF(res, rechargeHistory, totalAmount) {
   const doc = new PDFkit({ size: "A4", margin: 50 });
   function calculateTextWidth(text, font, fontSize) {
     doc.font(font);
