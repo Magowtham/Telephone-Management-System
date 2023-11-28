@@ -8,9 +8,9 @@ const addUser = async (req, res) => {
     }
     const newUser = new UserModel({ name, rfid, rollNumber });
     await newUser.save();
-    res.status(201).json({ message: "successfull" });
+    res.status(201).json({ message: "Successfull" });
   } catch (error) {
-    res.status(500).json({ error: "failed" });
+    res.status(500).json({ error: "Failed" });
   }
 };
 
