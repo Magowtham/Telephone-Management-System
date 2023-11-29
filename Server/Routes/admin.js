@@ -1,4 +1,4 @@
-const routes = require("express").Router();
+  const routes = require("express").Router();
 
 routes.get("/validate", require("../controllers/Admin/validate"));
 routes.post("/add_user", require("../controllers/Admin/add_user"));

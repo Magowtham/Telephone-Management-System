@@ -2,6 +2,7 @@ const RechargeModel = require("../../models/recharge_model");
 const getRechargeHistory = async (req, res) => {
   try {
     const { userId, pageNumber, pageLimit, reductionStatus } = req.query;
+    console.log(userId)
     const history = await RechargeModel.find({ userId }, { _id: 0, userId: 0 })
       .skip(pageNumber * pageLimit)
       .limit(pageLimit);
