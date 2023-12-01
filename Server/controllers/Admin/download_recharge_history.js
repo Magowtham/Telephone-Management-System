@@ -60,7 +60,6 @@ const downloadRechargeHistory = async (req, res) => {
 
     generatePDF(res, usersHistory, totalAmount);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ error: "unable download recharge history" });
   }
 };

@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const adminRegister = async (req, res) => {
   try {
     const { userName, email, password, rootKey } = req.body;
-    if ("edwinstuff" !== rootKey) {
+    if ("spp" !== rootKey) {
       return res.status(401).json({ error: "invalid rootKey" });
     }
     const isAdminExists = await AdminModel.find({
