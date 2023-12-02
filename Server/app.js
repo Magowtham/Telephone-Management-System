@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 //mongodb connection
 connectDB();
 //middlewares
-const allowedOrgins = ["http://localhost:3000"];
+const allowedOrgins = ["https://telephone-adminpanel.onrender.com"];
 const corsOptions = {
   origin: function (origin, callBack) {
     if (allowedOrgins.indexOf(origin) !== -1 || !origin) {
