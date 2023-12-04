@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 //mongodb connection
 connectDB();
 //middlewares
-const allowedOrgins = ["https://telephone-adminpanel.onrender.com"];
+const allowedOrgins = ["https://admin.vsensetechnologies.com"];
 const corsOptions = {
   origin: function (origin, callBack) {
     if (allowedOrgins.indexOf(origin) !== -1 || !origin) {
