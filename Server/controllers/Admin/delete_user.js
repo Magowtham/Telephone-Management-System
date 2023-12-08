@@ -7,8 +7,9 @@ const deleteUser = async (req, res) => {
       return res.status(404).json({ error: "user not found" });
     }
     const isUserDeleted = await UserModel.deleteOne({ rfid });
+    const totalUsers = await UserModel.countDocuments();
     if (isUserDeleted.acknowledged) {
-      res.status(200).json({ message: "user deleted successfully" });
+      res.status(200).json({ message: "user deleted successfully" ,totalUsers});
     } else {
       res.status(500).json({ error: "unable to delete user" });
     }

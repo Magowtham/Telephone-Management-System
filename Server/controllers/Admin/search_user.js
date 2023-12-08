@@ -16,7 +16,7 @@ const searchUser = async (req, res) => {
           },
         ],
       },
-      { name: 1, rfid: 1, rollNumber: 1, balance: 1, _id: 0 }
+      { name: 1, rfid: 1, rollNumber: 1, balance: 1, _id:1}
     );
     if (users.length === 0) {
       return res.status(404).json({ error: "user not found" });
