@@ -5,7 +5,8 @@ const moment = require("moment");
 const generatePDF = require("../Others/generate_pdf");
 const downloadRechargeHistory = async (req, res) => {
   try {
-    let { reductionStatus, startDate, endDate } = req.query;
+    let { hostelId, hostelName, reductionStatus, startDate, endDate } =
+      req.query;
     const usersHistory = [];
     let totalAmount = 0;
     startDate = moment(startDate, "DD/MM/YYYY").toDate();
@@ -13,6 +14,7 @@ const downloadRechargeHistory = async (req, res) => {
     const pipeline = [
       {
         $match: {
+          hostel_id: hostelId,
           date: {
             $gte: startDate,
             $lt: endDate,
@@ -23,7 +25,7 @@ const downloadRechargeHistory = async (req, res) => {
         $project: {
           amount: 1,
           _id: 0,
-          userId: 1,
+          user_id: 1,
         },
       },
     ];
@@ -35,7 +37,7 @@ const downloadRechargeHistory = async (req, res) => {
       }
       let newHistory = true;
       usersHistory.forEach((element) => {
-        if (element.userId === history.userId) {
+        if (element.user_id === history.user_id) {
           element.amount = Number(element.amount) + Number(history.amount);
           newHistory = false;
         }
@@ -46,18 +48,19 @@ const downloadRechargeHistory = async (req, res) => {
       totalAmount = totalAmount + Number(history.amount);
     });
     for (let i = 0; i < usersHistory.length; i++) {
-      const _id = new mongoose.Types.ObjectId(usersHistory[i].userId);
+      const _id = new mongoose.Types.ObjectId(usersHistory[i].user_id);
       const [dbResult] = await UserModel.find(
         { _id },
-        { rfid: 1, rollNumber: 1, _id: 0 }
+        { card_id: 1, roll_number: 1, _id: 0 }
       );
       usersHistory[i] = {
-        rfid: dbResult.rfid,
-        rollNumber: dbResult.rollNumber,
+        cardId: dbResult.card_id,
+        rollNumber: dbResult.roll_number,
         amount: usersHistory[i].amount,
       };
     }
-    generatePDF(res, usersHistory, totalAmount);
+    console.log(hostelName);
+    generatePDF(hostelName, res, usersHistory, totalAmount);
   } catch (error) {
     res.status(500).json({ error: "unable download recharge history" });
   }

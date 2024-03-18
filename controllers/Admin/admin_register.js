@@ -7,7 +7,7 @@ const adminRegister = async (req, res) => {
       return res.status(401).json({ error: "invalid rootKey" });
     }
     const isAdminExists = await AdminModel.find({
-      $or: [{ userName }, { email }],
+      $or: [{ user_name: userName }, { email }],
     });
     if (isAdminExists.length !== 0) {
       return res.status(422).json({ error: "admin already exists" });
@@ -21,7 +21,7 @@ const adminRegister = async (req, res) => {
           throw error;
         }
         const newAdmin = new AdminModel({
-          userName,
+          user_name: userName,
           email,
           password: hashedPassword,
         });

@@ -1,5 +1,5 @@
 const AdminModel = require("../../models/admin_model");
-const jwt=require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const adminLogin = async (req, res) => {
   try {
@@ -11,24 +11,24 @@ const adminLogin = async (req, res) => {
       userName = userName.slice(0, -5);
     }
     const [isAdminExists] = await AdminModel.find(
-      { userName },
-      { _id: 0, password: 1, userName: 1, email: 1 }
+      { user_name: userName },
+      { _id: 0, password: 1, user_name: 1, email: 1 }
     );
     if (!isAdminExists) {
       return res.status(404).json({ error: "admin not found" });
     }
-    const payload={
-      userName:isAdminExists.userName,
-      email:isAdminExists.email,
-      reductionStatus
-    }
-    const token=jwt.sign(payload,"spp",{expiresIn:"7d"});
+    const payload = {
+      userName: isAdminExists.userName,
+      email: isAdminExists.email,
+      reductionStatus,
+    };
+    const token = jwt.sign(payload, "spp", { expiresIn: "7d" });
     bcrypt.compare(password, isAdminExists.password, (error, result) => {
       if (error) {
         throw error;
       }
       if (result) {
-        res.status(200).json({ reductionStatus: reduction,token });
+        res.status(200).json({ reductionStatus: reduction, token });
       } else {
         res.status(401).json({ error: "incorrect password" });
       }

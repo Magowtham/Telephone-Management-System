@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const rechargeHistorySchema = mongoose.Schema({
-  userId: {
+  user_id: {
+    type: String,
+    required: true,
+  },
+  hostel_id: {
     type: String,
     required: true,
   },

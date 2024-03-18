@@ -1,16 +1,29 @@
 const UserModel = require("../../models/add_user_model");
+const HostelModel = require("../../models/create_hostel_model");
 const addUser = async (req, res) => {
   try {
-    const { name, rfid, rollNumber } = req.body;
-    const [isAlreadyUserExists] = await UserModel.find({ rfid });
-    if (isAlreadyUserExists) {
-      return res.status(409).json({ error: "RFID already exists" });
+    const { hostelName, rfid, cardid, name, rollNumber } = req.body;
+    const [isRfidExists] = await UserModel.find({ rfid });
+    if (isRfidExists) {
+      return res.status(409).json({ rfid_error: "rfid already exists" });
     }
-    const newUser = new UserModel({ name, rfid, rollNumber });
+    const [isCardIdExists] = await UserModel.find({ card_id: cardid });
+    if (isCardIdExists) {
+      return res.status(409).json({ cardid_error: "card already exists" });
+    }
+    const [hostel] = await HostelModel.find({ name: hostelName });
+
+    const newUser = new UserModel({
+      rfid,
+      card_id: cardid,
+      hostel_id: hostel._id.toString(),
+      name,
+      roll_number: rollNumber,
+    });
     await newUser.save();
-    res.status(201).json({ message: "Successfull" });
+    res.status(201).json({ message: "successfull" });
   } catch (error) {
-    res.status(500).json({ error: "Failed" });
+    res.status(500).json({ error: "failed" });
   }
 };
 

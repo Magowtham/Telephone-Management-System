@@ -1,6 +1,5 @@
-  const routes = require("express").Router();
+const routes = require("express").Router();
 
-routes.get("/validate", require("../controllers/Admin/validate"));
 routes.post("/add_user", require("../controllers/Admin/add_user"));
 routes.get("/get_users", require("../controllers/Admin/get_users"));
 routes.post(
@@ -27,4 +26,7 @@ routes.get(
   "/download_recharge_history",
   require("../controllers/Admin/download_recharge_history")
 );
+routes.post("/create_hostel", require("../controllers/Admin/create_hostel"));
+routes.get("/hostels", require("../controllers/Admin/get_hostels"));
+
 module.exports = routes;

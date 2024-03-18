@@ -1,11 +1,16 @@
 const RechargeModel = require("../../models/recharge_model");
 const getRechargeHistory = async (req, res) => {
   try {
-    const { userId, pageNumber, pageLimit, reductionStatus } = req.query; 
-    const history = await RechargeModel.find({ userId }, { _id: 0, userId: 0 })
+    const { userId, pageNumber, pageLimit, reductionStatus } = req.query;
+    const history = await RechargeModel.find(
+      { user_id: userId },
+      { _id: 0, user_id: 0 }
+    )
       .skip(pageNumber * pageLimit)
       .limit(pageLimit);
-    const historyLength = await RechargeModel.countDocuments({ userId });
+    const historyLength = await RechargeModel.countDocuments({
+      user_id: userId,
+    });
     if (Number(reductionStatus)) {
       history.forEach((value) => {
         value.amount = Number(value.amount) - Number(value.amount) * 0.6;

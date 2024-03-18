@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const expenseHistorySchema = mongoose.Schema({
-  userId: {
+  user_id: {
+    type: String,
+    required: true,
+  },
+  hostel_id: {
     type: String,
     required: true,
   },
@@ -9,15 +13,15 @@ const expenseHistorySchema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  callStartTime: {
+  call_start_time: {
     type: String,
     required: true,
   },
-  callEndTime: {
+  call_end_time: {
     type: String,
     required: true,
   },
-  reductedAmount: {
+  reducted_amount: {
     type: String,
     required: true,
   },

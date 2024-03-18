@@ -3,7 +3,7 @@ const path = require("path");
 const PDFkit = require("pdfkit");
 const currentDate = require("./current_date");
 
-function generatePDF(res, rechargeHistory, totalAmount) {
+function generatePDF(hostelName, res, rechargeHistory, totalAmount) {
   const doc = new PDFkit({ size: "A4", margin: 50 });
   function calculateTextWidth(text, font, fontSize) {
     doc.font(font);
@@ -60,7 +60,13 @@ function generatePDF(res, rechargeHistory, totalAmount) {
   doc
     .font("Times-Roman")
     .fontSize(16)
-    .text("Students Recharge Summary", doc.page.margins.left, 210)
+    .text(
+      `${
+        hostelName.charAt(0).toUpperCase() + hostelName.slice(1).toLowerCase()
+      } Hostel Recharge Summary`,
+      doc.page.margins.left,
+      210
+    )
     .moveDown(0.2)
     .text(`Date: ${currentDate().indDate}`);
   //table of recharge history
@@ -109,8 +115,8 @@ function generatePDF(res, rechargeHistory, totalAmount) {
               .font("Times-Roman")
               .fontSize(15)
               .text(
-                "RFID",
-                x + xCenterPositioner(cellWidth, "RFID", "Times-Roman", 15),
+                "Card ID",
+                x + xCenterPositioner(cellWidth, "Card ID", "Times-Roman", 15),
                 y + yCenterPositioner(cellHeight, 15)
               );
             break;
@@ -145,11 +151,11 @@ function generatePDF(res, rechargeHistory, totalAmount) {
               .font("Times-Roman")
               .fontSize(2)
               .text(
-                rechargeHistory[index - 1].rfid,
+                rechargeHistory[index - 1].cardId,
                 x +
                   xCenterPositioner(
                     cellWidth,
-                    rechargeHistory[index - 1].rfid,
+                    rechargeHistory[index - 1].cardId,
                     "Times-Roman",
                     15
                   ),

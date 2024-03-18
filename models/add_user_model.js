@@ -1,22 +1,30 @@
 const mongoose = require("mongoose");
 
 const UserSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
   rfid: {
     type: String,
     required: true,
   },
-  rollNumber: {
+  card_id: {
+    type: String,
+    required: true,
+  },
+  hostel_id: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  roll_number: {
     type: String,
     required: true,
   },
   balance: {
     type: Number,
     required: true,
-    default: 0,
+    default: 100,
   },
 });
 

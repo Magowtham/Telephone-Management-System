@@ -9,14 +9,17 @@ const searchUser = async (req, res) => {
             rfid: { $regex: `^${query}`, $options: "i" },
           },
           {
+            card_id: { $regex: `^${query}`, $options: "i" },
+          },
+          {
             name: { $regex: `^${query}`, $options: "i" },
           },
           {
-            rollNumber: { $regex: `^${query}`, $options: "i" },
+            roll_number: { $regex: `^${query}`, $options: "i" },
           },
         ],
       },
-      { name: 1, rfid: 1, rollNumber: 1, balance: 1, _id:1}
+      { rfid: 1, card_id: 1, name: 1, roll_number: 1, balance: 1, _id: 1 }
     );
     if (users.length === 0) {
       return res.status(404).json({ error: "user not found" });
