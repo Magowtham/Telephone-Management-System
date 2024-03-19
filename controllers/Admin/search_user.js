@@ -1,9 +1,10 @@
 const UserModel = require("../../models/add_user_model");
 const searchUser = async (req, res) => {
   try {
-    const { query } = req.query;
+    const { hostel_id, query } = req.query;
     const users = await UserModel.find(
       {
+        hostel_id,
         $or: [
           {
             rfid: { $regex: `^${query}`, $options: "i" },

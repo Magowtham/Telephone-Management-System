@@ -86,8 +86,8 @@ const UserModel = require("./models/add_user_model");
 //   balance: 100,
 // }).save();
 
-// const RechargeModel = require("./models/recharge_model");
-// const { time } = require("./controllers/Others/current_date")();
+const RechargeModel = require("./models/recharge_model");
+const { time } = require("./controllers/Others/current_date")();
 
 // (async () => {
 //   const res = await UserModel.find({});
@@ -101,8 +101,12 @@ const UserModel = require("./models/add_user_model");
 //     });
 
 //     await history.save();
-
 //   });
+// })();
+
+// (async () => {
+//   await RechargeModel.deleteMany({});
+//   console.log("deleted");
 // })();
 
 app.listen(PORT, () => {
