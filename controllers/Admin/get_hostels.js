@@ -7,10 +7,11 @@ const date = new Date();
 const getHostels = async (req, res) => {
   try {
     const result = await HostelModel.find({});
-    const currentDate = moment(
+      const startDate = moment(
       `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`,
       "DD/MM/YYYY"
     ).toDate();
+   const endDate=moment(`${date.getDate()+1}/${date.getMonth()+1}/${date.getFullYear()}`,"DD/MM/YYYY").toDate();
     const data = [];
     for (let i = 0; i < result.length; i++) {
       const pipeline = [
@@ -18,7 +19,8 @@ const getHostels = async (req, res) => {
           $match: {
             hostel_id: result[i]._id.toString(),
             date: {
-              $gte: currentDate,
+              $gt: startDate,
+              $lt:endDate,
             },
           },
         },
